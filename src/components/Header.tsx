@@ -1,21 +1,19 @@
 // components/Header.tsx
-import Image from "next/image"
-
 export default function Header() {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <Image
-            src="/cropped-LOGO-14-RCPN.png" // substitua pelo caminho correto da sua logo
+          <img
+            src="/cropped-LOGO-14-RCPN.png"
             alt="Cartório Logo"
             width={100}
             height={100}
             className="object-contain"
           />
           <span className="text-xl font-semibold text-zinc-800">
-            14º RCPN Madureira
+            14º RCPN da Capital
           </span>
         </div>
 

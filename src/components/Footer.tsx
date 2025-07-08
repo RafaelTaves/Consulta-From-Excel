@@ -26,7 +26,7 @@ export default function Footer() {
       </div>
 
       <div className="bg-zinc-700 text-center py-3 text-xs text-gray-300">
-        Todos os Direitos Reservados 14º RCPN © 2025 - CartorioGenial
+        Todos os Direitos Reservados 14º RCPN © 2025 - Total Sistemas
       </div>
     </footer>
   )

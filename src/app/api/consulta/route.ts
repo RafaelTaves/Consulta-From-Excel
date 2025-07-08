@@ -11,13 +11,13 @@ export async function POST(req: Request) {
         }
 
         // Verificar se as variáveis de ambiente estão definidas
-        if (!process.env.GOOGLE_CLIENT_EMAIL || !process.env.GOOGLE_PRIVATE_KEY || !process.env.GOOGLE_SHEET_ID) {
+        if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_EMAIL || !process.env.NEXT_PUBLIC_GOOGLE_PRIVATE_KEY || !process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID) {
             console.error('Variáveis de ambiente não configuradas')
             return NextResponse.json({ error: 'Configuração do servidor incompleta' }, { status: 500 })
         }
 
         // Processar a chave privada
-        let privateKey = process.env.GOOGLE_PRIVATE_KEY
+        let privateKey = process.env.NEXT_PUBLIC_GOOGLE_PRIVATE_KEY
         
         // Remover aspas se existirem
         if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
         // Configurar autenticação JWT
         const auth = new google.auth.JWT({
-            email: process.env.GOOGLE_CLIENT_EMAIL,
+            email: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_EMAIL,
             key: privateKey,
             scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
         })
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
         // Buscar dados da planilha
         const response = await sheets.spreadsheets.values.get({
-            spreadsheetId: process.env.GOOGLE_SHEET_ID,
+            spreadsheetId: process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID,
             range: 'Página1!A2:E1000',
         })
 
