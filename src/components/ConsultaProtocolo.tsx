@@ -26,7 +26,7 @@ export default function ConsultaProtocolo() {
     setResultado(null)
 
     try {
-      const res = await fetch("http://localhost:3001/consulta", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/consulta`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
