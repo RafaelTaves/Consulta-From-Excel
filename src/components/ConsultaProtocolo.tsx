@@ -16,14 +16,14 @@ interface Registro {
 
 export default function ConsultaProtocolo() {
   const [protocolo, setProtocolo] = useState("")
-  const [resultado, setResultado] = useState<Registro | null>(null)
+  const [resultado, setResultado] = useState<Registro[]>([])
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState("")
 
   const buscarProtocolo = async () => {
     setErro("")
     setLoading(true)
-    setResultado(null)
+    setResultado([])
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/consulta`, {
@@ -39,7 +39,8 @@ export default function ConsultaProtocolo() {
       if (!res.ok) {
         setErro(data.error || "Erro desconhecido")
       } else {
-        setResultado(data)
+        setResultado(Array.isArray(data) ? data : [])
+
       }
     } catch (err) {
       setErro("Erro na requisição")
@@ -72,7 +73,7 @@ export default function ConsultaProtocolo() {
       </Card>
 
       {/* Resultado da consulta */}
-      {resultado && (
+      {resultado.length > 0 && (
         <div className="mt-8 overflow-x-auto">
           <table className="min-w-full border border-zinc-300 text-sm">
             <thead className="bg-zinc-100">
@@ -81,21 +82,24 @@ export default function ConsultaProtocolo() {
                 <th className="px-4 py-2 border">Natureza</th>
                 <th className="px-4 py-2 border">Sequência</th>
                 <th className="px-4 py-2 border">Andamento</th>
-                {resultado.exigencia && <th className="px-4 py-2 border">Exigência</th>}
+                <th className="px-4 py-2 border">Exigência</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="px-4 py-2 border text-center">{resultado.protocolo}</td>
-                <td className="px-4 py-2 border text-center">{resultado.descNatureza}</td>
-                <td className="px-4 py-2 border text-center">{resultado.sequencia}</td>
-                <td className="px-4 py-2 border text-center">{resultado.descricaoAndamento}</td>
-                {resultado.exigencia && <td className="px-4 py-2 border text-center">{resultado.exigencia}</td>}
-              </tr>
+              {resultado.map((registro, idx) => (
+                <tr key={idx}>
+                  <td className="px-4 py-2 border text-center">{registro.protocolo}</td>
+                  <td className="px-4 py-2 border text-center">{registro.descNatureza}</td>
+                  <td className="px-4 py-2 border text-center">{registro.sequencia}</td>
+                  <td className="px-4 py-2 border text-center">{registro.descricaoAndamento}</td>
+                  <td className="px-4 py-2 border text-center">{registro.exigencia || "-"}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       )}
+
     </div>
   )
 }
