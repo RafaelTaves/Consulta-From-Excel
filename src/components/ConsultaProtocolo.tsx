@@ -31,7 +31,9 @@ export default function ConsultaProtocolo() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ protocolo }),
+        body: JSON.stringify({ 
+          protocolo,
+          spreadsheetId: "1P43ecGee30imckcJrhyY4zoOsj43Z1zvsCRKgMy54gc" }),
       })
 
       const data = await res.json()
